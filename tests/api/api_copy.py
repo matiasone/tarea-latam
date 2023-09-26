@@ -1,7 +1,6 @@
 import fastapi
 import pandas as pd
 import json
-from fastapi.testclient import TestClient
 top_10_features = [
     "OPERA_Latin American Wings", 
     "MES_7",
@@ -64,16 +63,3 @@ async def post_predict(data, response: fastapi.Response) -> dict:
         return json_to_return
     
 print("Hello World!")
-data = {
-            "flights": [
-                {
-                    "OPERA": "Aerolineas Argentinas", 
-                    "TIPOVUELO": "N", 
-                    "MES": 3
-                }
-            ]
-        }
-        # when("xgboost.XGBClassifier").predict(ANY).thenReturn(np.array([0])) # change this line to the model of chosing
-client1 = TestClient(app)
-response = client1.post("/predict", data)
-print("RESP", response)

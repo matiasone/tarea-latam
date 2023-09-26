@@ -1,12 +1,16 @@
 import unittest
 
 from fastapi.testclient import TestClient
-from challenge import app
-
+#from challenge import app
+#from api_copy import app
+from challenge import api, model
+import sys
+sys.path.insert(0, "C:/Users/User/Desktop/'tarea latam'/challenge")
+print("HOLAAAAAAAAA", api.app)
 
 class TestBatchPipeline(unittest.TestCase):
     def setUp(self):
-        self.client = TestClient(app)
+        self.client = TestClient(api.app)
         
     def test_should_get_predict(self):
         data = {
@@ -19,7 +23,8 @@ class TestBatchPipeline(unittest.TestCase):
             ]
         }
         # when("xgboost.XGBClassifier").predict(ANY).thenReturn(np.array([0])) # change this line to the model of chosing
-        response = self.client.post("/predict", json=data)
+        response = self.client.post("/predict", data)
+        print("RESP", response)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {"predict": [0]})
     
@@ -35,7 +40,8 @@ class TestBatchPipeline(unittest.TestCase):
             ]
         }
         # when("xgboost.XGBClassifier").predict(ANY).thenReturn(np.array([0]))# change this line to the model of chosing
-        response = self.client.post("/predict", json=data)
+        response = self.client.post("/predict", data)
+        print("RESP", response)
         self.assertEqual(response.status_code, 400)
 
     def test_should_failed_unkown_column_2(self):
@@ -49,7 +55,8 @@ class TestBatchPipeline(unittest.TestCase):
             ]
         }
         # when("xgboost.XGBClassifier").predict(ANY).thenReturn(np.array([0]))# change this line to the model of chosing
-        response = self.client.post("/predict", json=data)
+        response = self.client.post("/predict", data)
+        print("RESP", response)
         self.assertEqual(response.status_code, 400)
     
     def test_should_failed_unkown_column_3(self):
@@ -63,5 +70,6 @@ class TestBatchPipeline(unittest.TestCase):
             ]
         }
         # when("xgboost.XGBClassifier").predict(ANY).thenReturn(np.array([0]))
-        response = self.client.post("/predict", json=data)
+        response = self.client.post("/predict", data)
+        print("RESP", response)
         self.assertEqual(response.status_code, 400)

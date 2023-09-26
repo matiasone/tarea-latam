@@ -1,1 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="4" time="131.537" timestamp="2023-09-25T02:17:21.084182" hostname="DESKTOP-6U7NTVB"><testcase classname="tests.model.test_model.TestModel" name="test_model_fit" time="21.647" /><testcase classname="tests.model.test_model.TestModel" name="test_model_predict" time="42.506" /><testcase classname="tests.model.test_model.TestModel" name="test_model_preprocess_for_serving" time="21.010" /><testcase classname="tests.model.test_model.TestModel" name="test_model_preprocess_for_training" time="22.866" /></testsuite></testsuites>
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="8.633" timestamp="2023-09-25T21:13:37.618818" hostname="DESKTOP-6U7NTVB"><testcase classname="" name="tests.api.test_api" time="0.000"><error message="collection failure">tests/api/test_api.py:6: in &lt;module&gt;
+    from challenge import api, model
+challenge/__init__.py:1: in &lt;module&gt;
+    from challenge.api import app
+challenge/api.py:78: in &lt;module&gt;
+    response = client1.post("/predict", data)
+.venv/lib/python3.8/site-packages/requests/sessions.py:637: in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+.venv/lib/python3.8/site-packages/starlette/testclient.py:473: in request
+    return super().request(
+.venv/lib/python3.8/site-packages/requests/sessions.py:589: in request
+    resp = self.send(prep, **send_kwargs)
+.venv/lib/python3.8/site-packages/requests/sessions.py:703: in send
+    r = adapter.send(request, **kwargs)
+.venv/lib/python3.8/site-packages/starlette/testclient.py:267: in send
+    raise exc
+.venv/lib/python3.8/site-packages/starlette/testclient.py:262: in send
+    with self.portal_factory() as portal:
+/usr/lib/python3.8/contextlib.py:113: in __enter__
+    return next(self.gen)
+.venv/lib/python3.8/site-packages/starlette/testclient.py:450: in _portal_factory
+    with anyio.start_blocking_portal(**self.async_backend) as portal:
+E   AttributeError: module 'anyio' has no attribute 'start_blocking_portal'</error></testcase></testsuite></testsuites>

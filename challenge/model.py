@@ -8,6 +8,7 @@ from sklearn.metrics import confusion_matrix, classification_report, fbeta_score
 import xgboost as xgb
 from sklearn.linear_model import LogisticRegression
 from xgboost import plot_importance
+from sklearn.utils.validation import check_is_fitted
 
 def get_period_day(date):
     date_time = datetime.strptime(date, '%Y-%m-%d %H:%M:%S').time()
@@ -57,11 +58,25 @@ def get_min_diff(data):
     min_diff = ((fecha_o - fecha_i).total_seconds())/60
     return min_diff
 
+top_10_features = [
+            "OPERA_Latin American Wings", 
+            "MES_7",
+            "MES_10",
+            "OPERA_Grupo LATAM",
+            "MES_12",
+            "TIPOVUELO_I",
+            "MES_4",
+            "MES_11",
+            "OPERA_Sky Airline",
+            "OPERA_Copa Air"
+        ]
+
 class DelayModel:
 
     def __init__(self):
         #self._model = xgb.XGBClassifier(random_state=1, learning_rate=0.01, scale=4.44) # falta la escala
-        self._model = xgb.XGBClassifier(random_state=1, learning_rate=0.01)
+        #self._model = xgb.XGBClassifier(random_state=1, learning_rate=0.01)
+        self._model = LogisticRegression()
         self.data = 0
     
     def preprocess(self, data: pd.DataFrame, target_column: str = None
@@ -130,8 +145,13 @@ class DelayModel:
             elif i == 1:
                 unos += 1
         scale = float(ceros/unos)
-        self._model = xgb.XGBClassifier(random_state=1, learning_rate=0.01, scale_pos_weight = scale)
-        self._model.fit(x_train, y_train)
+        self._model = LogisticRegression(class_weight={1: ceros/len(y_train), 0: unos/len(y_train)})
+        # self._model = xgb.XGBClassifier(random_state=1, learning_rate=0.01, scale_pos_weight = scale)
+        try:
+            print(check_is_fitted(self._model, attributes=None))
+        except:
+            self._model.fit(x_train, y_train)
+            print(check_is_fitted(self._model, attributes=None))
 
     def predict(
         self,
@@ -146,21 +166,36 @@ class DelayModel:
         Returns:
             (List[int]): predicted targets.
         """
-        if not self._model.__sklearn_is_fitted__():
+        """if not self._model.__sklearn_is_fitted__():
+            all_features = self.preprocess(self.data, "delay")
+            xs = all_features[0]; ys = all_features[1]
+            self.fit(xs, ys)"""
+        try:
+            print(check_is_fitted(self._model, attributes=None))
+        except:
             all_features = self.preprocess(self.data, "delay")
             xs = all_features[0]; ys = all_features[1]
             self.fit(xs, ys)
+            print(check_is_fitted(self._model, attributes=None))
         
         y_preds = self._model.predict(features)
         y_preds = y_preds.tolist()
         return y_preds
 
 
-"""data = pd.read_csv("./data/data.csv")
-XGBoost_model = DelayModel()
+data = pd.read_csv("./data/data.csv")
+"""XGBoost_model = DelayModel()
 features = XGBoost_model.preprocess(data, "delay")
 xs = features[0]; ys = features[1]
 XGBoost_model.fit(xs, ys)
 lista_ys = XGBoost_model.predict(xs)
 report = classification_report(ys, lista_ys, output_dict=True)
-print(report)"""
+# print(report)"""
+
+LR_model = DelayModel()
+features1 = LR_model.preprocess(data, "delay")
+xs1 = features1[0]; ys1 = features1[1]
+LR_model.fit(xs1, ys1)
+lista_ys1 = LR_model.predict(xs1)
+report1 = classification_report(ys1, lista_ys1, output_dict=True)
+print(report1)

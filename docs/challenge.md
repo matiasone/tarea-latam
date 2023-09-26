@@ -33,7 +33,31 @@ F-beta-score = F1-score * (1 + beta^2)/(2*beta^2). [Fernández et al., 2018] rec
 (6) Logistic Regression with Feature Importante but without Balance:
     accuracy = 0.81, f2score = 0.01592168887840547
 
-El modelo con mejor F2-score fue el (3), por lo que nos quedamos con ese.
+El modelo con mejor F2-score fue el (5), por lo que nos quedamos con ese.
+
+Posteriormente, se completa la clase DelayModel() con lo pedido en el enunciado, utilizando lo mostrado en el jupyter notebook para el modelo de Logistic Regression con selección de características y balance.
+Se crea una instancia de la clase y se importa dicha instancia para hacer las consultas al modelo a través de la api.
+
+En la parte de la API, se tratan los casos mostrados en test_api donde se debe retornar un error 400, se completa el diccionario que será utilizado como input para el modelo con la información entregada y la ausencia de esta, así completando los valores para cada una de las 10 características seleccionadas, las cuales son las siguientes:
+
+top_10_features = [
+    "OPERA_Latin American Wings", 
+    "MES_7",
+    "MES_10",
+    "OPERA_Grupo LATAM",
+    "MES_12",
+    "TIPOVUELO_I",
+    "MES_4",
+    "MES_11",
+    "OPERA_Sky Airline",
+    "OPERA_Copa Air"
+]
+
+Así, si se encuentra uno de esas características en el input, se completa como verdadero, mientras que si no se encuentra, se completa como falso. Finalmente se realiza la consulta al modelo.
+
+Para consultar al modelo, se cambió en test la forma de consultar, pasando de 'json=data' a simplemente 'data' para entregar el input. No se pudo probar la ejecución del código debido al error "ERROR tests/api/test_api.py - AttributeError: module 'anyio' has no attribute 'start_blocking_portal'"
+
+
 
 
 
