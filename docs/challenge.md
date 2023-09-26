@@ -57,6 +57,8 @@ Así, si se encuentra uno de esas características en el input, se completa como
 
 Para consultar al modelo, se cambió en test la forma de consultar, pasando de 'json=data' a simplemente 'data' para entregar el input. No se pudo probar la ejecución del código debido al error "ERROR tests/api/test_api.py - AttributeError: module 'anyio' has no attribute 'start_blocking_portal'"
 
+No pude realizar la parte III y parte IV por falta de tiempo. Gracias por la oportunidad!
+
 
 
 
