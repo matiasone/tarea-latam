@@ -74,6 +74,6 @@ data = {
             ]
         }
         # when("xgboost.XGBClassifier").predict(ANY).thenReturn(np.array([0])) # change this line to the model of chosing
-client1 = TestClient(app)
+"""client1 = TestClient(app)
 response = client1.post("/predict", data)
-print("RESP", response)
+print("RESP", response)"""
